@@ -1,0 +1,39 @@
+name: Bridge
+
+on:
+  workflow_call:
+    inputs:
+      username:
+        required: true
+        type: string
+      image:
+        required: true
+        type: string
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 🔐 Generar token dinámico con GitHub App
+      - name: Generate GitHub App token
+        id: app-token
+        uses: tibdex/github-app-token@v2
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.PRIVATE_KEY }}
+
+      # 🚀 Llamar al repo privado
+      - name: Trigger private workflow
+        run: |
+          curl -X POST \
+            -H "Authorization: Bearer ${{ steps.app-token.outputs.token }}" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/juancamilo-nb/private-action/actions/workflows/private.yml/dispatches \
+            -d '{
+              "ref": "main",
+              "inputs": {
+                "username": "${{ inputs.username }}",
+                "image": "${{ inputs.image }}"
+              }
+            }'
