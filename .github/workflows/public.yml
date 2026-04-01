@@ -1,4 +1,4 @@
-name: Bridge
+name: public
 
 on:
   workflow_call:
@@ -9,6 +9,11 @@ on:
       image:
         required: true
         type: string
+    secrets:
+      APP_ID:
+        required: true
+      PRIVATE_KEY:
+        required: true
 
 jobs:
   trigger:
