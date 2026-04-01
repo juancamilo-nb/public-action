@@ -15,7 +15,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 🔐 Generar token con GitHub App (usa secrets de ESTE repo)
       - name: Generate GitHub App token
         id: app-token
         uses: tibdex/github-app-token@v2
@@ -23,7 +22,6 @@ jobs:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.PRIVATE_KEY }}
 
-      # 🚀 Llamar al repo privado
       - name: Trigger private workflow
         run: |
           curl -X POST \
