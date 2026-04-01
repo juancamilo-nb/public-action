@@ -1,7 +1,7 @@
 name: public
 
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
       username:
         required: true
@@ -9,18 +9,13 @@ on:
       image:
         required: true
         type: string
-    secrets:
-      APP_ID:
-        required: true
-      PRIVATE_KEY:
-        required: true
 
 jobs:
   trigger:
     runs-on: ubuntu-latest
 
     steps:
-      # 🔐 Generar token con GitHub App
+      # 🔐 Generar token con GitHub App (usa secrets de ESTE repo)
       - name: Generate GitHub App token
         id: app-token
         uses: tibdex/github-app-token@v2
@@ -38,7 +33,7 @@ jobs:
             -d '{
               "ref": "master",
               "inputs": {
-                "username": "${{ inputs.username }}",
-                "image": "${{ inputs.image }}"
+                "username": "${{ github.event.inputs.username }}",
+                "image": "${{ github.event.inputs.image }}"
               }
             }'
