@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 🔐 Generar token dinámico con GitHub App
+      # 🔐 Generar token con GitHub App
       - name: Generate GitHub App token
         id: app-token
         uses: tibdex/github-app-token@v2
